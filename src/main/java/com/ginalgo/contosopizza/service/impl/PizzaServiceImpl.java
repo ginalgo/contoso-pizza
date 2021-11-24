@@ -43,14 +43,15 @@ public class PizzaServiceImpl implements PizzaService {
 
     @Override
     public void update(Long id, PizzaDto newPizzaData) {
-        Optional<Pizza> pizza = pizzaCrudRepository.findById(id);
-        pizza.orElseThrow(RuntimeException::new).setIsGlutenFree(newPizzaData.getIsGlutenFree());
-        pizza.orElseThrow(RuntimeException::new).setName(newPizzaData.getName());
-        pizzaCrudRepository.save(pizza.orElseThrow(RuntimeException::new));
+        Pizza pizza = pizzaCrudRepository.findById(id).orElseThrow(RuntimeException::new);
+        pizza.setIsGlutenFree(newPizzaData.getIsGlutenFree());
+        pizza.setName(newPizzaData.getName());
+        pizzaCrudRepository.save(pizza);
     }
 
     @Override
     public void delete(Long id) {
+        Pizza pizza = get(id);
         pizzaCrudRepository.deleteById(id);
     }
 }

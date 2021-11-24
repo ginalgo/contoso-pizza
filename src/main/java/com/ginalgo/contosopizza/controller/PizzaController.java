@@ -41,7 +41,7 @@ public class PizzaController {
         return ResponseEntity.ok(pizzas);
     }
 
-    @PutMapping()
+    @PutMapping
     public ResponseEntity<?> update(@RequestParam Long id, @RequestBody PizzaDto newPizzaData) {
         try {
             pizzaService.update(id, newPizzaData);
@@ -52,9 +52,14 @@ public class PizzaController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping()
+    @DeleteMapping
     public ResponseEntity<?> delete(@RequestParam Long id) {
-        pizzaService.delete(id);
+        try {
+            pizzaService.delete(id);
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok().build();
     }
 }
